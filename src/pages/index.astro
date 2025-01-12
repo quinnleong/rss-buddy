@@ -4,12 +4,17 @@ import Parser from 'rss-parser';
 
 const parser = new Parser();
 
-const sevenDaysAgo = new Date();
-sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+const thirtyDaysAgo = new Date();
+thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
 const feedSources = [
+  'https://mikefisher.substack.com/feed',
+  'https://read.mindmine.xyz/feed',
+  'https://newsletter.weskao.com/feed',
+  'https://adamgrant.substack.com/feed',
+  'https://altered.substack.com/feed',
+  'https://read.engineerscodex.com/feed',
   'https://www.smashingmagazine.com/feed/',
-  'https://developer.mozilla.org/en-US/blog/rss.xml',
   // etc.
 ]
 
@@ -28,7 +33,7 @@ await Promise.allSettled(
       const feed = await parser.parseURL(source);
       feed.items.forEach((item) => {
         const date = item.pubDate ? new Date(item.pubDate) : undefined;
-        if (date && date >= sevenDaysAgo) {
+        if (date && date >= thirtyDaysAgo) {
           feedItems.push({
             feed: feed.title,
             title: item.title,
